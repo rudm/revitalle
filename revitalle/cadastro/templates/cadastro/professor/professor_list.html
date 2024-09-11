@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - Professores
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Professores</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'cadastro:professor-create' %}" class="btn btn-primary">Novo Professor</a>
+  </div>
+
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Matrícula</th>
+        <th>Nome</th>
+        <th>Sexo</th>
+        <th>Data Nascimento</th>
+        <th>Data Admissão</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for professor in object_list %}
+        <tr>
+          <td>{{ professor.matricula }}</td>
+          <td>{{ professor.nome }}</td>
+          <td>{{ professor.sexo }}</td>
+          <td>{{ professor.dtnascimento }}</td>
+          <td>{{ professor.dtadmissao }}</td>
+          <td>
+            <a href="{% url 'cadastro:professor-update' pk=professor.pk %}" class="btn btn-outline-primary">Editar</a>
+            <button type="button" class="btn btn-outline-danger btn-remover" 
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    data-item-id="{{ professor.pk }}" 
+                    data-item-nome="{{ professor.nome }}"
+                    data-delete-url="{% url 'cadastro:professor-delete' pk=professor.pk %}">
+              Remover
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'components/delete_modal.html' %}
+{% endblock %}

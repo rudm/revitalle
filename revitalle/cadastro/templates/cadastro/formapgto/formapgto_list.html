@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - Formas de Pagamento
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Formas de Pagamento</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'cadastro:formapgto-create' %}" class="btn btn-primary">Nova Forma de Pagamento</a>
+  </div>
+
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Descrição</th>
+        <th>Tipo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for formapgto in object_list %}
+        <tr>
+          <td>{{ formapgto.descricao }}</td>
+          <td>{{ formapgto.sttipo }}</td>
+          <td>
+            <a href="{% url 'cadastro:formapgto-update' pk=formapgto.pk %}" class="btn btn-outline-primary">Editar</a>
+            <button type="button" class="btn btn-outline-danger btn-remover" 
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    data-item-id="{{ formapgto.pk }}"
+                    data-item-nome="{{ formapgto.descricao }}"
+                    data-delete-url="{% url 'cadastro:formapgto-delete' pk=formapgto.pk %}">
+              Remover
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'components/delete_modal.html' %}
+{% endblock %}

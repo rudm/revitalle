@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - Alunos
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Alunos</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'cadastro:aluno-create' %}" class="btn btn-primary">Novo Aluno</a>
+  </div>
+
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Matrícula</th>
+        <th>Nome</th>
+        <th>Sexo</th>
+        <th>Data Nascimento</th>
+        <th>Data Matrícula</th>
+        <th>Ativo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aluno in object_list %}
+        <tr>
+          <td>{{ aluno.matricula }}</td>
+          <td>{{ aluno.nome }}</td>
+          <td>{% if aluno.sexo == 1 %}Masculino{% elif aluno.sexo == 2 %}Feminino{% endif %}</td>
+          <td>{{ aluno.dtnascimento }}</td>
+          <td>{{ aluno.dtmatricula }}</td>
+          <td>
+            {% if aluno.ativo %}
+              <span class="badge bg-success">Ativo</span>
+            {% else %}
+              <span class="badge bg-danger">Inativo</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'cadastro:aluno-update' pk=aluno.pk %}" class="btn btn-outline-primary">Editar</a>
+            <button type="button" class="btn btn-outline-danger btn-remover" 
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    data-item-id="{{ aluno.pk }}"
+                    data-item-nome="{{ aluno.nome }}"
+                    data-delete-url="{% url 'cadastro:aluno-delete' pk=aluno.pk %}">
+              Remover
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'components/delete_modal.html' %}
+{% endblock %}
