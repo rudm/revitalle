@@ -17,12 +17,32 @@
   <table class="table">
     <thead class="thead-inverse">
       <tr>
-        <th>Matrícula</th>
-        <th>Nome</th>
+        <th>
+          <a href="?order_by=matricula&direction={% if current_order == 'matricula' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+            Matrícula
+            {% if current_order == 'matricula' %}
+              <i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?order_by=nome&direction={% if current_order == 'nome' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+            Nome
+            {% if current_order == 'nome' %}
+              <i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>
+            {% endif %}
+          </a>
+        </th>
         <th>Sexo</th>
-        <th>Data Nascimento</th>
         <th>Data Matrícula</th>
-        <th>Ativo</th>
+        <th>
+          <a href="?order_by=ativo&direction={% if current_order == 'ativo' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+            Ativo
+            {% if current_order == 'ativo' %}
+              <i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>
+            {% endif %}
+          </a>
+        </th>
         <th>Ações</th>
       </tr>
     </thead>

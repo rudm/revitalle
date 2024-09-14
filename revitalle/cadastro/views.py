@@ -14,6 +14,20 @@ def home(request):
 class AlunoList(ListView):
     model = models.Aluno
     template_name = 'cadastro/aluno/aluno_list.html'
+    paginate_by = 10
+    ordering = ['nome']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by', 'matricula')
+        direction = self.request.GET.get('direction', 'asc')
+        return queryset.order_by(f'{"-" if direction == "desc" else ""}{order_by}')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_order'] = self.request.GET.get('order_by', 'matricula')
+        context['current_direction'] = self.request.GET.get('direction', 'asc')
+        return context
 
 
 class AlunoDetail(DetailView):
