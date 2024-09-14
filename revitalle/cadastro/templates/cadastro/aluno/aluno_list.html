@@ -29,16 +29,15 @@
     <tbody>
       {% for aluno in object_list %}
         <tr>
-          <td>{{ aluno.matricula }}</td>
+          <td class="text-end">{{ aluno.matricula }}</td>
           <td>{{ aluno.nome }}</td>
           <td>{% if aluno.sexo == 1 %}Masculino{% elif aluno.sexo == 2 %}Feminino{% endif %}</td>
-          <td>{{ aluno.dtnascimento }}</td>
-          <td>{{ aluno.dtmatricula }}</td>
+          <td>{{ aluno.dtmatricula|date:'d/m/Y' }}</td>
           <td>
             {% if aluno.ativo %}
               <span class="badge bg-success">Ativo</span>
             {% else %}
-              <span class="badge bg-danger">Inativo</span>
+              <span class="badge bg-secondary">Inativo</span>
             {% endif %}
           </td>
           <td>
@@ -56,5 +55,6 @@
     </tbody>
   </table>
 
+  {% include 'components/pagination.html' %}
   {% include 'components/delete_modal.html' %}
 {% endblock %}

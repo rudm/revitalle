@@ -44,6 +44,8 @@ class AlunoDelete(DeleteView):
 class ProfessorList(ListView):
     model = models.Professor
     template_name = 'cadastro/professor/professor_list.html'
+    paginate_by = 10
+    ordering = ['nome']
 
 
 class ProfessorDetail(DetailView):
@@ -74,6 +76,8 @@ class ProfessorDelete(DeleteView):
 class FormaPgtoList(ListView):
     model = models.FormaPgto
     template_name = 'cadastro/formapgto/formapgto_list.html'
+    paginate_by = 10
+    ordering = ['descricao']
 
 
 class FormaPgtoDetail(DetailView):
@@ -103,6 +107,7 @@ class FormaPgtoDelete(DeleteView):
 
 class PagamentoList(ListView):
     model = models.Pagamento
+    queryset = models.Pagamento.objects.select_related('aluno', 'formapgto')
     template_name = 'cadastro/pagamento/pagamento_list.html'
 
 
