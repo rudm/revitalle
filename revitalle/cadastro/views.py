@@ -119,6 +119,38 @@ class FormaPgtoDelete(DeleteView):
     success_url = reverse_lazy('cadastro:formaspgto')
 
 
+class TipoDespesaList(ListView):
+    model = models.TipoDespesa
+    template_name = 'cadastro/tipodespesa/tipodespesa_list.html'
+    paginate_by = 10
+    ordering = ['descricao']
+
+
+class TipoDespesaDetail(DetailView):
+    model = models.TipoDespesa
+    template_name = 'cadastro/tipodespesa/tipodespesa_detail.html'
+
+
+class TipoDespesaCreate(CreateView):
+    model = models.TipoDespesa
+    form_class = forms.TipoDespesaForm
+    template_name = 'cadastro/tipodespesa/tipodespesa_form.html'
+    success_url = reverse_lazy('cadastro:tipodespesa-list')
+
+
+class TipoDespesaUpdate(UpdateView):
+    model = models.TipoDespesa
+    form_class = forms.TipoDespesaForm
+    template_name = 'cadastro/tipodespesa/tipodespesa_form.html'
+    success_url = reverse_lazy('cadastro:tipodespesa-list')
+
+
+class TipoDespesaDelete(DeleteView):
+    model = models.TipoDespesa
+    template_name = 'cadastro/tipodespesa/tipodespesa_delete.html'
+    success_url = reverse_lazy('cadastro:tipodespesa-list')
+
+
 class PagamentoList(ListView):
     model = models.Pagamento
     queryset = models.Pagamento.objects.select_related('aluno', 'formapgto')

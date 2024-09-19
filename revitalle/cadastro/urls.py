@@ -30,4 +30,10 @@ urlpatterns = [
     path('pagamento-create/', views.PagamentoCreate.as_view(), name='pagamento-create'),
     path('pagamento-update/<int:pk>/', views.PagamentoUpdate.as_view(), name='pagamento-update'),
     path('pagamento-delete/<int:pk>/', views.PagamentoDelete.as_view(), name='pagamento-delete'),
+    path('tipodespesa', views.TipoDespesaList.as_view(), name='tipodespesa-list'),
+    path('tipodespesa/<int:pk>/', views.TipoDespesaDetail.as_view(), name='tipodespesa-detail'),
+    path('tipodespesa-create/', views.TipoDespesaCreate.as_view(), name='tipodespesa-create'),
+    path('tipodespesa-update/<int:pk>/', views.TipoDespesaUpdate.as_view(), name='tipodespesa-update'),
+    path('tipodespesa-delete/<int:pk>/', views.TipoDespesaDelete.as_view(), name='tipodespesa-delete'),
+
 ]

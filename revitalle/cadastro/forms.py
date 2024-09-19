@@ -38,6 +38,18 @@ class FormaPgtoForm(forms.ModelForm):
         labels = {
             'descricao': 'Descrição',
             'sttipo': 'Tipo',
+class TipoDespesaForm(forms.ModelForm):
+
+    class Meta:
+        model = models.TipoDespesa
+        labels = {
+            'descricao': 'Descrição',
+        }
+        fields = (
+            'descricao',
+        )
+
+
         }
         fields = (
             'descricao', 'sttipo',

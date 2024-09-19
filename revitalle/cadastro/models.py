@@ -60,6 +60,16 @@ class FormaPgto(Model):
 
 
 class Pagamento(Model):
+class TipoDespesa(Model):
+    descricao = CharField(max_length=60)
+
+    def __str__(self):
+        return self.descricao
+
+    class Meta:
+        db_table = 'tipodespesa'
+
+
     aluno = ForeignKey(Aluno, on_delete=PROTECT)
     formapgto = ForeignKey(FormaPgto, on_delete=PROTECT)
     valor = DecimalField(max_digits=10, decimal_places=2)
