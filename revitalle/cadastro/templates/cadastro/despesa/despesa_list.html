@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - Despesas
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Despesas</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'cadastro:despesa-create' %}" class="btn btn-primary">Nova Despesa</a>
+  </div>
+
+  <div class="mb-3 d-flex align-items-center">
+    {% include 'components/mes_ano_filtro.html' %}
+  </div>
+
+  <div id="despesas-table">
+    {% include 'cadastro/despesa/despesa_list_table.html' %}
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabelaDespesas = document.getElementById('despesas-table');
+      inicializarFiltroDespesas("{% url 'cadastro:despesa-list' %}", tabelaDespesas);
+    });
+  </script>
+{% endblock %}

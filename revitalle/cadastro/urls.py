@@ -36,4 +36,10 @@ urlpatterns = [
     path('tipodespesa-update/<int:pk>/', views.TipoDespesaUpdate.as_view(), name='tipodespesa-update'),
     path('tipodespesa-delete/<int:pk>/', views.TipoDespesaDelete.as_view(), name='tipodespesa-delete'),
 
+    path('despesa', views.DespesaList.as_view(), name='despesa-list'),
+    path('despesa/<int:pk>/', views.DespesaDetail.as_view(), name='despesa-detail'),
+    path('despesa-create/', views.DespesaCreate.as_view(), name='despesa-create'),
+    path('despesa-update/<int:pk>/', views.DespesaUpdate.as_view(), name='despesa-update'),
+    path('despesa-delete/<int:pk>/', views.DespesaDelete.as_view(), name='despesa-delete'),
+
 ]

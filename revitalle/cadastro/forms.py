@@ -50,9 +50,17 @@ class TipoDespesaForm(forms.ModelForm):
         )
 
 
+class DespesaForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Despesa
+        labels = {
+            'dtlancamento': 'Data Lançamento',
+            'tipodespesa': 'Tipo de Despesa',
+            'observacao': 'Observação',
         }
         fields = (
-            'descricao', 'sttipo',
+            'dtlancamento', 'tipodespesa', 'valor', 'pago', 'observacao',
         )
 
 

@@ -70,6 +70,17 @@ class TipoDespesa(Model):
         db_table = 'tipodespesa'
 
 
+class Despesa(Model):
+    tipodespesa = ForeignKey(TipoDespesa, on_delete=PROTECT, null=True, blank=True)
+    valor = DecimalField(max_digits=10, decimal_places=2)
+    dtlancamento = DateField(default=date.today)
+    pago = BooleanField(default=False)
+    observacao = TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'despesa'
+
+
     aluno = ForeignKey(Aluno, on_delete=PROTECT)
     formapgto = ForeignKey(FormaPgto, on_delete=PROTECT)
     valor = DecimalField(max_digits=10, decimal_places=2)

@@ -155,6 +155,58 @@ class PagamentoList(ListView):
     model = models.Pagamento
     queryset = models.Pagamento.objects.select_related('aluno', 'formapgto')
     template_name = 'cadastro/pagamento/pagamento_list.html'
+class DespesaList(ListView):
+    model = models.Despesa
+    template_name = 'cadastro/despesa/despesa_list.html'
+    paginate_by = 10
+    ordering = ['dtlancamento']
+
+    def get_queryset(self):
+        mes = self.request.GET.get('mes_atual', timezone.now().month)
+        ano = self.request.GET.get('ano_atual', timezone.now().year)
+        queryset = models.Despesa.objects.select_related('tipodespesa').filter(
+            dtlancamento__year=ano, dtlancamento__month=mes).order_by(*self.ordering)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['anos'] = range(timezone.now().year + 1, 2000, -1)
+        context['meses'] = range(1, 13)
+        context['mes_atual'] = self.request.GET.get('mes', timezone.now().month)
+        context['ano_atual'] = self.request.GET.get('ano', timezone.now().year)
+        return context
+    
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.GET.get('ajax'):
+            return render(self.request, 'cadastro/despesa/despesa_list_table.html', context)
+        return super().render_to_response(context, **response_kwargs)
+
+
+class DespesaDetail(DetailView):
+    model = models.Despesa
+    template_name = 'cadastro/despesa/despesa_detail.html'
+
+
+class DespesaCreate(CreateView):
+    model = models.Despesa
+    form_class = forms.DespesaForm
+    template_name = 'cadastro/despesa/despesa_form.html'
+    success_url = reverse_lazy('cadastro:despesa-list')
+
+
+class DespesaUpdate(UpdateView):
+    model = models.Despesa
+    form_class = forms.DespesaForm
+    template_name = 'cadastro/despesa/despesa_form.html'
+    success_url = reverse_lazy('cadastro:despesa-list')
+
+
+class DespesaDelete(DeleteView):
+    model = models.Despesa
+    template_name = 'cadastro/despesa/despesa_delete.html'
+    success_url = reverse_lazy('cadastro:despesa-list')
+
+
 
 
 class PagamentoDetail(DetailView):
