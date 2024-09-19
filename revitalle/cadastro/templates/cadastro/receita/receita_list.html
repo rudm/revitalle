@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - Receitas
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Receitas</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'cadastro:receita-create' %}" class="btn btn-primary">Nova Receita</a>
+  </div>
+
+  <div class="mb-3 d-flex align-items-center">
+    {% include 'components/mes_ano_filtro.html' %}
+  </div>
+
+  <div id="receitas-table">
+    {% include 'cadastro/receita/receita_list_table.html' %}
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabelaReceitas = document.getElementById('receitas-table');
+      inicializarFiltroDespesas("{% url 'cadastro:receita-list' %}", tabelaReceitas);
+    });
+  </script>
+{% endblock %}

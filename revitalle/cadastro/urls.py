@@ -25,11 +25,6 @@ urlpatterns = [
     path('formapgto-update/<int:pk>/', views.FormaPgtoUpdate.as_view(), name='formapgto-update'),
     path('formapgto-delete/<int:pk>/', views.FormaPgtoDelete.as_view(), name='formapgto-delete'),
 
-    path('pagamento', views.PagamentoList.as_view(), name='pagamentos'),
-    path('pagamento/<int:pk>/', views.PagamentoDetail.as_view(), name='pagamento'),
-    path('pagamento-create/', views.PagamentoCreate.as_view(), name='pagamento-create'),
-    path('pagamento-update/<int:pk>/', views.PagamentoUpdate.as_view(), name='pagamento-update'),
-    path('pagamento-delete/<int:pk>/', views.PagamentoDelete.as_view(), name='pagamento-delete'),
     path('tipodespesa', views.TipoDespesaList.as_view(), name='tipodespesa-list'),
     path('tipodespesa/<int:pk>/', views.TipoDespesaDetail.as_view(), name='tipodespesa-detail'),
     path('tipodespesa-create/', views.TipoDespesaCreate.as_view(), name='tipodespesa-create'),
@@ -42,4 +37,9 @@ urlpatterns = [
     path('despesa-update/<int:pk>/', views.DespesaUpdate.as_view(), name='despesa-update'),
     path('despesa-delete/<int:pk>/', views.DespesaDelete.as_view(), name='despesa-delete'),
 
+    path('receita', views.ReceitaList.as_view(), name='receita-list'),
+    path('receita/<int:pk>/', views.ReceitaDetail.as_view(), name='receita-detail'),
+    path('receita-create/', views.ReceitaCreate.as_view(), name='receita-create'),
+    path('receita-update/<int:pk>/', views.ReceitaUpdate.as_view(), name='receita-update'),
+    path('receita-delete/<int:pk>/', views.ReceitaDelete.as_view(), name='receita-delete'),
 ]

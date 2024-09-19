@@ -1,0 +1,37 @@
+<table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Pago</th>
+        <th>Data Lançamento</th>
+        <th>Aluno</th>
+        <th>Professor</th>
+        <th>Valor</th>
+        <th>Forma de Pagamento</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for receita in object_list %}
+        <tr>
+          <td>{{ receita.pago }}</td>
+          <td>{{ receita.dtlancamento|date:'d/m/Y' }}</td>
+          <td>{{ receita.aluno.nome }}</td>
+          <td>{{ receita.professor.nome }}</td>
+          <td>R$ {{ receita.valor|floatformat:2 }}</td>
+          <td>{{ receita.formapgto.descricao }}</td>
+          <td>
+            <a href="{% url 'cadastro:receita-update' pk=receita.pk %}" class="btn btn-outline-primary">Editar</a>
+            <button type="button" class="btn btn-outline-danger btn-remover" 
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    data-item-id="{{ receita.pk }}"
+                    data-item-nome="{{ receita.pk }}"
+                    data-delete-url="{% url 'cadastro:receita-delete' pk=receita.pk %}">
+              Remover
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'components/delete_modal.html' %}

@@ -59,7 +59,6 @@ class FormaPgto(Model):
         db_table = 'formapgto'
 
 
-class Pagamento(Model):
 class TipoDespesa(Model):
     descricao = CharField(max_length=60)
 
@@ -81,11 +80,14 @@ class Despesa(Model):
         db_table = 'despesa'
 
 
+class Receita(Model):
     aluno = ForeignKey(Aluno, on_delete=PROTECT)
+    professor = ForeignKey(Professor, on_delete=PROTECT)
     formapgto = ForeignKey(FormaPgto, on_delete=PROTECT)
     valor = DecimalField(max_digits=10, decimal_places=2)
-    dtpagamento = DateField(default=date.now)
+    dtlancamento = DateField(default=date.today)
+    pago = BooleanField(default=False)
     observacao = TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'pagamento'
+        db_table = 'receita'

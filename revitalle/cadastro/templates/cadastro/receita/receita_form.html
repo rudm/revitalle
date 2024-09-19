@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ block.super }} - Nova Receita{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:receita-list' %}">Receitas</a></li>
+  <li class="breadcrumb-item active">Nova Receita</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {% include 'components/form.html' %}
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <button type="button" class="btn btn-outline-danger" onclick="history.back()">Voltar</button>
+  </form>
+{% endblock %}

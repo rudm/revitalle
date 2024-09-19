@@ -64,15 +64,17 @@ class DespesaForm(forms.ModelForm):
         )
 
 
-class PagamentoForm(forms.ModelForm):
+class ReceitaForm(forms.ModelForm):
 
     class Meta:
-        model = models.Pagamento
+        model = models.Receita
         labels = {
+            'dtlancamento': 'Data Lançamento',
+            'aluno': 'Aluno',
             'formapgto': 'Forma de Pagamento',
-            'dtpagamento': 'Data Pagamento',
+            'dtlancamento': 'Data Lançamento',
             'observacao': 'Observação',
         }
         fields = (
-            'aluno', 'formapgto', 'valor', 'dtpagamento', 'observacao',
+            'dtlancamento', 'aluno', 'formapgto', 'valor', 'professor', 'pago', 'observacao',
         )

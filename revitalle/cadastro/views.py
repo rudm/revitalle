@@ -151,10 +151,6 @@ class TipoDespesaDelete(DeleteView):
     success_url = reverse_lazy('cadastro:tipodespesa-list')
 
 
-class PagamentoList(ListView):
-    model = models.Pagamento
-    queryset = models.Pagamento.objects.select_related('aluno', 'formapgto')
-    template_name = 'cadastro/pagamento/pagamento_list.html'
 class DespesaList(ListView):
     model = models.Despesa
     template_name = 'cadastro/despesa/despesa_list.html'
@@ -207,28 +203,54 @@ class DespesaDelete(DeleteView):
     success_url = reverse_lazy('cadastro:despesa-list')
 
 
+class ReceitaList(ListView):
+    model = models.Receita
+    queryset = models.Receita.objects.select_related('aluno', 'formapgto', 'professor')
+    template_name = 'cadastro/receita/receita_list.html'
+    paginate_by = 10
+    ordering = ['dtlancamento']
+
+    def get_queryset(self):
+        mes = self.request.GET.get('mes_atual', timezone.now().month)
+        ano = self.request.GET.get('ano_atual', timezone.now().year)
+        queryset = models.Receita.objects.select_related('aluno', 'formapgto', 'professor').filter(
+            dtlancamento__year=ano, dtlancamento__month=mes).order_by(*self.ordering)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['anos'] = range(timezone.now().year + 1, 2000, -1)
+        context['meses'] = range(1, 13)
+        context['mes_atual'] = self.request.GET.get('mes', timezone.now().month)
+        context['ano_atual'] = self.request.GET.get('ano', timezone.now().year)
+        return context
+    
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.GET.get('ajax'):
+            return render(self.request, 'cadastro/receita/receita_list_table.html', context)
+        return super().render_to_response(context, **response_kwargs)
 
 
-class PagamentoDetail(DetailView):
-    model = models.Pagamento
-    template_name = 'cadastro/pagamento/pagamento_detail.html'
+class ReceitaDetail(DetailView):
+    model = models.Receita
+    template_name = 'cadastro/receita/receita_detail.html'
 
 
-class PagamentoCreate(CreateView):
-    model = models.Pagamento
-    form_class = forms.PagamentoForm
-    template_name = 'cadastro/pagamento/pagamento_form.html'
-    success_url = reverse_lazy('cadastro:pagamentos')
+class ReceitaCreate(CreateView):
+    model = models.Receita
+    form_class = forms.ReceitaForm
+    template_name = 'cadastro/receita/receita_form.html'
+    success_url = reverse_lazy('cadastro:receita-list')
 
 
-class PagamentoUpdate(UpdateView):
-    model = models.Pagamento
-    form_class = forms.PagamentoForm
-    template_name = 'cadastro/pagamento/pagamento_form.html'
-    success_url = reverse_lazy('cadastro:pagamentos')
+class ReceitaUpdate(UpdateView):
+    model = models.Receita
+    form_class = forms.ReceitaForm
+    template_name = 'cadastro/receita/receita_form.html'
+    success_url = reverse_lazy('cadastro:receita-list')
 
 
-class PagamentoDelete(DeleteView):
-    model = models.Pagamento
-    template_name = 'cadastro/pagamento/pagamento_delete.html'
-    success_url = reverse_lazy('cadastro:pagamentos')
+class ReceitaDelete(DeleteView):
+    model = models.Receita
+    template_name = 'cadastro/receita/receita_delete.html'
+    success_url = reverse_lazy('cadastro:receita-list')
