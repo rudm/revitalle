@@ -1,9 +1,16 @@
 from django import forms
+from django.forms.widgets import RadioSelect
+from django.db.models import Max
 
 from cadastro import models
 
 
 class AlunoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        max_matricula = models.Aluno.objects.aggregate(Max('matricula'))['matricula__max']
+        self.fields['matricula'].initial = max_matricula + 1
 
     class Meta:
         model = models.Aluno
@@ -12,6 +19,9 @@ class AlunoForm(forms.ModelForm):
             'matricula': 'Matrícula',
             'dtmatricula': 'Data Matrícula',
         }
+        widgets = {
+            'sexo': RadioSelect,
+        }
         fields = (
             'matricula', 'nome', 'sexo', 'dtnascimento', 'dtmatricula', 'ativo',
         )
@@ -19,12 +29,20 @@ class AlunoForm(forms.ModelForm):
 
 class ProfessorForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        max_matricula = models.Professor.objects.aggregate(Max('matricula'))['matricula__max']
+        self.fields['matricula'].initial = max_matricula + 1
+
     class Meta:
         model = models.Professor
         labels = {
             'dtnascimento': 'Data Nascimento',
             'matricula': 'Matrícula',
             'dtadmissao': 'Data Admissão',
+        }
+        widgets = {
+            'sexo': RadioSelect,
         }
         fields = (
             'matricula', 'nome', 'sexo', 'dtnascimento', 'dtadmissao',

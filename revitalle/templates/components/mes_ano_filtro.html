@@ -1,0 +1,51 @@
+{% load form_tags %}
+
+<select id="ano-select" class="form-select me-3" style="width: auto;">
+  {% for ano in anos %}
+    <option value="{{ ano }}" {% if ano == ano_atual %}selected{% endif %}>{{ ano }}</option>
+  {% endfor %}
+</select>
+
+{% for mes in meses %}
+  <a href="#" 
+     class="btn btn-outline-secondary me-1 {% if mes_atual == mes %}active{% endif %} mes-link"
+     data-mes="{{ mes|stringformat:'02d' }}">
+     {{ mes|month_name|slice:":3" }}
+  </a>
+{% endfor %}
+
+<script>
+  function inicializarFiltroDespesas(url, tabela) {
+    const anoSelect = document.getElementById('ano-select');
+    const mesLinks = document.querySelectorAll('.mes-link');
+
+    function atualizarDespesas(ano, mes) {
+      const fullUrl = `${url}?ano_atual=${ano}&mes_atual=${mes}&ajax=true`;
+      
+      axios.get(fullUrl)
+        .then(response => {
+          tabela.innerHTML = response.data;
+        })
+        .catch(error => {
+          console.error('Erro ao buscar despesas:', error);
+        });
+    }
+
+    anoSelect.addEventListener('change', function() {
+      const anoSelecionado = this.value;
+      const mesSelecionado = document.querySelector('.mes-link.active').dataset.mes;
+      atualizarDespesas(anoSelecionado, mesSelecionado);
+    });
+
+    mesLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        mesLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const anoSelecionado = anoSelect.value;
+        const mesSelecionado = this.dataset.mes;
+        atualizarDespesas(anoSelecionado, mesSelecionado);
+      });
+    });
+  }
+</script>

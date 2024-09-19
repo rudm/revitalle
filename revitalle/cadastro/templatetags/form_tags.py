@@ -1,4 +1,7 @@
+import calendar
+
 from django import template
+
 
 register = template.Library()
 
@@ -17,3 +20,8 @@ def input_class(bound_field):
         elif field_type(bound_field) != 'PasswordInput':
             css_class = 'is-valid'
     return f'form-control {css_class}'
+
+
+@register.filter
+def month_name(month_number):
+    return calendar.month_name[month_number]
