@@ -11,7 +11,7 @@
         <div class="card-body">
           <h5 class="card-title">Alunos</h5>
           <p class="card-text">Lista de todos os alunos</p>
-          <a href="{% url 'cadastro:alunos' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'cadastro:aluno-list' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
     </div>
@@ -20,7 +20,10 @@
         <div class="card-body">
           <h5 class="card-title">Professores</h5>
           <p class="card-text">Lista de todos os professores</p>
-          <a href="{% url 'cadastro:professores' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'cadastro:professor-list' %}" class="btn btn-primary">Go</a>
+        </div>
+      </div>
+    </div>
     <div class="col-sm-3">
       <div class="card">
         <div class="card-body">
@@ -44,7 +47,7 @@
         <div class="card-body">
           <h5 class="card-title">Formas de Pagamento</h5>
           <p class="card-text">Lista de todas as formas de pagamento</p>
-          <a href="{% url 'cadastro:formaspgto' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'cadastro:formapgto-list' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
     </div>

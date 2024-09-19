@@ -4,15 +4,15 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'cadastro:home' %}">Home</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'cadastro:professores' %}">Professores</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'cadastro:professor-list' %}">Professores</a></li>
   <li class="breadcrumb-item active">Novo Professor</li>
 {% endblock %}
 
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    {% include 'includes/form.html' %}
+    {% include 'components/form.html' %}
     <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="{% url 'cadastro:professores' %}" class="btn btn-outline-danger">Cancelar</a>
+    <button type="button" class="btn btn-outline-danger" onclick="history.back()">Voltar</button>
   </form>
 {% endblock %}

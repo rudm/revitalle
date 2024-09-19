@@ -14,10 +14,10 @@ class Pessoa(Model):
 
     id = AutoField(primary_key=True)
     nome = CharField(max_length=60)
-    matricula = CharField(unique=True)
+    matricula = IntegerField(unique=True)
     sexo = SmallIntegerField(
         choices=((s.value, s.name.title()) for s in Sexo), default=Sexo.Feminino)
-    dtnascimento = DateField()
+    dtnascimento = DateField(blank=True, null=True)
 
     def __str__(self):
         return self.nome
@@ -42,7 +42,7 @@ class Professor(Pessoa):
 
 
 class FormaPgto(Model):
-    class StTipo(IntEnum):
+    class Tipo(IntEnum):
         Dinheiro = 1
         Cheque = 2
         Pix = 3
@@ -50,7 +50,7 @@ class FormaPgto(Model):
         Credito = 5
 
     descricao = CharField(max_length=60)
-    sttipo = SmallIntegerField(choices=((m.value, m.name.title()) for m in StTipo), default=0)
+    tipo = SmallIntegerField(choices=((t.value, t.name.title()) for t in Tipo), default=1)
 
     def __str__(self):
         return self.descricao

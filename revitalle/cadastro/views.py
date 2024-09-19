@@ -3,6 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.db.models import Q
+from django.utils import timezone
 
 from cadastro import forms, models
 
@@ -15,19 +17,29 @@ class AlunoList(ListView):
     model = models.Aluno
     template_name = 'cadastro/aluno/aluno_list.html'
     paginate_by = 10
-    ordering = ['nome']
+    ordering = ['ativo', 'nome']
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        order_by = self.request.GET.get('order_by', 'matricula')
-        direction = self.request.GET.get('direction', 'asc')
+        search_term = self.request.GET.get('search')
+        order_by = self.request.GET.get('order_by', 'ativo')
+        direction = self.request.GET.get('direction', 'desc')
+        if search_term:
+            # queryset = queryset.filter(Q(nome__unaccent__icontains=search_term))
+            queryset = queryset.filter(Q(nome__icontains=search_term))
         return queryset.order_by(f'{"-" if direction == "desc" else ""}{order_by}')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_order'] = self.request.GET.get('order_by', 'matricula')
-        context['current_direction'] = self.request.GET.get('direction', 'asc')
+        context['search_term'] = self.request.GET.get('search', '')
+        context['current_order'] = self.request.GET.get('order_by', 'ativo')
+        context['current_direction'] = self.request.GET.get('direction', 'desc')
         return context
+    
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.GET.get('ajax'):
+            return render(self.request, 'cadastro/aluno/aluno_list_table.html', context)
+        return super().render_to_response(context, **response_kwargs)
 
 
 class AlunoDetail(DetailView):
@@ -39,20 +51,20 @@ class AlunoCreate(CreateView):
     model = models.Aluno
     form_class = forms.AlunoForm
     template_name = 'cadastro/aluno/aluno_form.html'
-    success_url = reverse_lazy('cadastro:alunos')
+    success_url = reverse_lazy('cadastro:aluno-list')
 
 
 class AlunoUpdate(UpdateView):
     model = models.Aluno
     form_class = forms.AlunoForm
     template_name = 'cadastro/aluno/aluno_form.html'
-    success_url = reverse_lazy('cadastro:alunos')
+    success_url = reverse_lazy('cadastro:aluno-list')
 
 
 class AlunoDelete(DeleteView):
     model = models.Aluno
     template_name = 'cadastro/aluno/aluno_delete.html'
-    success_url = reverse_lazy('cadastro:alunos')
+    success_url = reverse_lazy('cadastro:aluno-list')
 
 
 class ProfessorList(ListView):
@@ -71,20 +83,20 @@ class ProfessorCreate(CreateView):
     model = models.Professor
     form_class = forms.ProfessorForm
     template_name = 'cadastro/professor/professor_form.html'
-    success_url = reverse_lazy('cadastro:professores')
+    success_url = reverse_lazy('cadastro:professor-list')
 
 
 class ProfessorUpdate(UpdateView):
     model = models.Professor
     form_class = forms.ProfessorForm
     template_name = 'cadastro/professor/professor_form.html'
-    success_url = reverse_lazy('cadastro:professores')
+    success_url = reverse_lazy('cadastro:professor-list')
 
 
 class ProfessorDelete(DeleteView):
     model = models.Professor
     template_name = 'cadastro/professor/professor_delete.html'
-    success_url = reverse_lazy('cadastro:professores')
+    success_url = reverse_lazy('cadastro:professor-list')
 
 
 class FormaPgtoList(ListView):
@@ -103,20 +115,20 @@ class FormaPgtoCreate(CreateView):
     model = models.FormaPgto
     form_class = forms.FormaPgtoForm
     template_name = 'cadastro/formapgto/formapgto_form.html'
-    success_url = reverse_lazy('cadastro:formaspgto')
+    success_url = reverse_lazy('cadastro:formapgto-list')
 
 
 class FormaPgtoUpdate(UpdateView):
     model = models.FormaPgto
     form_class = forms.FormaPgtoForm
     template_name = 'cadastro/formapgto/formapgto_form.html'
-    success_url = reverse_lazy('cadastro:formaspgto')
+    success_url = reverse_lazy('cadastro:formapgto-list')
 
 
 class FormaPgtoDelete(DeleteView):
     model = models.FormaPgto
     template_name = 'cadastro/formapgto/formapgto_delete.html'
-    success_url = reverse_lazy('cadastro:formaspgto')
+    success_url = reverse_lazy('cadastro:formapgto-list')
 
 
 class TipoDespesaList(ListView):

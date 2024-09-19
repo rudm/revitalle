@@ -26,7 +26,7 @@
       {% for formapgto in object_list %}
         <tr>
           <td>{{ formapgto.descricao }}</td>
-          <td>{{ formapgto.sttipo }}</td>
+          <td>{{ formapgto.tipo }}</td>
           <td>
             <a href="{% url 'cadastro:formapgto-update' pk=formapgto.pk %}" class="btn btn-outline-primary">Editar</a>
             <button type="button" class="btn btn-outline-danger btn-remover" 

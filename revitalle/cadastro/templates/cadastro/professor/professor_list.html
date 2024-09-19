@@ -20,7 +20,6 @@
         <th>Matrícula</th>
         <th>Nome</th>
         <th>Sexo</th>
-        <th>Data Nascimento</th>
         <th>Data Admissão</th>
         <th>Ações</th>
       </tr>
@@ -28,11 +27,10 @@
     <tbody>
       {% for professor in object_list %}
         <tr>
-          <td>{{ professor.matricula }}</td>
+          <td class="text-end">{{ professor.matricula }}</td>
           <td>{{ professor.nome }}</td>
-          <td>{{ professor.sexo }}</td>
-          <td>{{ professor.dtnascimento }}</td>
-          <td>{{ professor.dtadmissao }}</td>
+          <td>{% if professor.sexo == 1 %}Masculino{% elif professor.sexo == 2 %}Feminino{% endif %}</td>
+          <td>{{ professor.dtadmissao|date:'d/m/Y' }}</td>
           <td>
             <a href="{% url 'cadastro:professor-update' pk=professor.pk %}" class="btn btn-outline-primary">Editar</a>
             <button type="button" class="btn btn-outline-danger btn-remover" 
