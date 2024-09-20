@@ -17,17 +17,23 @@ class AlunoList(ListView):
     model = models.Aluno
     template_name = 'cadastro/aluno/aluno_list.html'
     paginate_by = 10
-    ordering = ['ativo', 'nome']
+    ordering = ['-ativo', 'nome']
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
         search_term = self.request.GET.get('search')
-        order_by = self.request.GET.get('order_by', 'ativo')
-        direction = self.request.GET.get('direction', 'desc')
         if search_term:
             # queryset = queryset.filter(Q(nome__unaccent__icontains=search_term))
             queryset = queryset.filter(Q(nome__icontains=search_term))
-        return queryset.order_by(f'{"-" if direction == "desc" else ""}{order_by}')
+
+        order_by = self.request.GET.get('order_by')
+        direction = self.request.GET.get('direction')
+
+        if order_by and direction:
+            return queryset.order_by(f'{"-" if direction == "desc" else ""}{order_by}')
+
+        return queryset.order_by(*self.ordering)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,7 +77,7 @@ class ProfessorList(ListView):
     model = models.Professor
     template_name = 'cadastro/professor/professor_list.html'
     paginate_by = 10
-    ordering = ['nome']
+    ordering = ['-ativo', 'nome']
 
 
 class ProfessorDetail(DetailView):

@@ -3,7 +3,7 @@ from datetime import date
 
 from django.db.models import (
     Model, AutoField, ForeignKey, DecimalField, IntegerField, SmallIntegerField, CharField,
-    TextField, BooleanField, DateField, DateTimeField, PROTECT, CASCADE,
+    TextField, BooleanField, DateField, PROTECT,
 )
 
 
@@ -18,6 +18,7 @@ class Pessoa(Model):
     sexo = SmallIntegerField(
         choices=((s.value, s.name.title()) for s in Sexo), default=Sexo.Feminino)
     dtnascimento = DateField(blank=True, null=True)
+    ativo = BooleanField(default=True)
 
     def __str__(self):
         return self.nome
@@ -28,7 +29,6 @@ class Pessoa(Model):
 
 class Aluno(Pessoa):
     dtmatricula = DateField(default=date.today)
-    ativo = BooleanField(default=True)
 
     class Meta:
         db_table = 'aluno'
@@ -45,7 +45,7 @@ class FormaPgto(Model):
     class Tipo(IntEnum):
         Dinheiro = 1
         Cheque = 2
-        Pix = 3
+        Transferencia = 3
         Debito = 4
         Credito = 5
 

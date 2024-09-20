@@ -45,7 +45,7 @@ class ProfessorForm(forms.ModelForm):
             'sexo': RadioSelect,
         }
         fields = (
-            'matricula', 'nome', 'sexo', 'dtnascimento', 'dtadmissao',
+            'matricula', 'nome', 'sexo', 'dtnascimento', 'dtadmissao', 'ativo',
         )
 
 
