@@ -15,34 +15,11 @@
   </div>
 
   <div class="mb-3">
-    <input type="text" id="pesquisaAluno" class="form-control" placeholder="Pesquisar por nome..." value="{{ search_term }}">
+    {% url 'cadastro:aluno-list' as url_list %}
+    {% include 'components/filtro.html' with url=url_list resultadosDiv='resultadosAlunos' %}
   </div>
 
   <div id="resultadosAlunos">
     {% include 'cadastro/aluno/aluno_list_table.html' %}
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const pesquisaInput = document.getElementById('pesquisaAluno');
-      const resultadosDiv = document.getElementById('resultadosAlunos');
-      let timeoutId;
-
-      pesquisaInput.addEventListener('input', function() {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          const searchTerm = pesquisaInput.value;
-          axios.get('{% url "cadastro:aluno-list" %}', {
-            params: { search: searchTerm, ajax: 1 }
-          })
-          .then(function (response) {
-            resultadosDiv.innerHTML = response.data;
-          })
-          .catch(function (error) {
-            console.error('Erro na busca:', error);
-          });
-        }, 300);
-      });
-    });
-  </script>
 {% endblock %}

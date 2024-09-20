@@ -1,0 +1,25 @@
+<input type="text" id="pesquisa" class="form-control" placeholder="Pesquisar..." value="{{ search_term }}">
+
+{% block script %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const pesquisaInput = document.getElementById('pesquisa');
+      const resultadosDiv = document.getElementById('{{ resultadosDiv }}');
+      let timeoutId;
+
+      pesquisaInput.addEventListener('input', function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          const searchTerm = pesquisaInput.value;
+          axios.get(`{{ url }}?search=${searchTerm}&ajax=1`)
+            .then(function (response) {
+              resultadosDiv.innerHTML = response.data;
+            })
+          .catch(function (error) {
+            console.error('Erro na busca:', error);
+          });
+        }, 500);
+      });
+    });
+  </script>
+{% endblock %}
