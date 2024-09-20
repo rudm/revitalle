@@ -18,7 +18,7 @@
     {% include 'components/mes_ano_filtro.html' %}
   </div>
 
-  <div id="receitas-table">
+  <div id="resultadosReceitas">
     {% include 'cadastro/receita/receita_list_table.html' %}
   </div>
 {% endblock %}
@@ -26,7 +26,7 @@
 {% block script %}
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const tabelaReceitas = document.getElementById('receitas-table');
+      const tabelaReceitas = document.getElementById('resultadosReceitas');
       inicializarFiltroDespesas("{% url 'cadastro:receita-list' %}", tabelaReceitas);
     });
   </script>

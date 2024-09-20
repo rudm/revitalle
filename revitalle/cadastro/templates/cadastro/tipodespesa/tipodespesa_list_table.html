@@ -1,0 +1,28 @@
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th style="width: 75%">Descrição</th>
+      <th style="width: 15%" class="text-center">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tipodespesa in object_list %}
+      <tr>
+        <td>{{ tipodespesa.descricao }}</td>
+        <td class="text-center">
+          <a href="{% url 'cadastro:tipodespesa-update' pk=tipodespesa.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+          <button type="button" class="btn btn-sm btn-outline-danger btn-remover" 
+                  data-bs-toggle="modal" data-bs-target="#deleteModal"
+                  data-item-id="{{ tipodespesa.pk }}"
+                  data-item-nome="{{ tipodespesa.descricao }}"
+                  data-delete-url="{% url 'cadastro:tipodespesa-delete' pk=tipodespesa.pk %}">
+            Remover
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include 'components/pagination.html' %}
+{% include 'components/delete_modal.html' %}

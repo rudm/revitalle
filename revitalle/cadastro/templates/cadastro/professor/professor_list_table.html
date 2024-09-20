@@ -1,0 +1,40 @@
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th style="width: 10%" class="text-center">Matrícula</th>
+      <th style="width: 50%">Nome</th>
+      <th style="width: 15%" class="text-center">Data Admissão</th>
+      <th style="width: 10%" class="text-center">Ativo</th>
+      <th style="width: 15%" class="text-center">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for professor in object_list %}
+      <tr>
+        <td class="text-end">{{ professor.matricula }}</td>
+        <td>{{ professor.nome }}</td>
+        <td class="text-center">{{ professor.dtadmissao|date:'d/m/Y' }}</td>
+        <td class="text-center">
+          {% if professor.ativo %}
+            <small class="bg-success-subtle border border-success-subtle rounded-2 px-2 py-1">Ativo</small>
+          {% else %}
+            <small class="bg-secondary-subtle border border-secondary-subtle rounded-2 px-2 py-1">Inativo</small>
+          {% endif %}
+        </td>
+        <td class="text-center">
+          <a href="{% url 'cadastro:professor-update' pk=professor.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+          <button type="button" class="btn btn-sm btn-outline-danger btn-remover" 
+                  data-bs-toggle="modal" data-bs-target="#deleteModal"
+                  data-item-id="{{ professor.pk }}" 
+                  data-item-nome="{{ professor.nome }}"
+                  data-delete-url="{% url 'cadastro:professor-delete' pk=professor.pk %}">
+            Remover
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include 'components/pagination.html' %}
+{% include 'components/delete_modal.html' %}

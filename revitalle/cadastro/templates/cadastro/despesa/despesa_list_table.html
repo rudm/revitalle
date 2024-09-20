@@ -1,35 +1,41 @@
-<table class="table">
-    <thead class="thead-inverse">
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th style="width: 7%" class="text-center">Pago</th>
+      <th style="width: 10%" class="text-center">Data</th>
+      <th style="width: 20%">Tipo Despesa</th>
+      <th style="width: 10%" class="text-end">Valor</th>
+      <th style="width: 30%">Observação</th>
+      <th style="width: 15%" class="text-center">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for despesa in object_list %}
       <tr>
-        <th>Pago</th>
-        <th>Data</th>
-        <th>Tipo Despesa</th>
-        <th>Valor</th>
-        <th>Observação</th>
-        <th>Ações</th>
+        <td class="text-center">
+          {% if despesa.pago %}
+            <small class="bg-success-subtle border border-success-subtle rounded-2 px-2 py-1">Sim</small>
+          {% else %}
+            <small class="bg-danger-subtle border border-danger-subtle rounded-2 px-2 py-1">Não</small>
+          {% endif %}
+        </td>
+        <td class="text-center">{{ despesa.dtlancamento|date:'d/m/Y' }}</td>
+        <td>{{ despesa.tipodespesa.descricao }}</td>
+        <td class="text-end">R$ {{ despesa.valor|floatformat:2 }}</td>
+        <td>{{ despesa.observacao }}</td>
+        <td class="text-center">
+          <a href="{% url 'cadastro:despesa-update' pk=despesa.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+          <button type="button" class="btn btn-sm btn-outline-danger btn-remover" 
+                  data-bs-toggle="modal" data-bs-target="#deleteModal"
+                  data-item-id="{{ despesa.pk }}"
+                  data-item-nome="{{ despesa.tipodespesa.descricao }}"
+                  data-delete-url="{% url 'cadastro:despesa-delete' pk=despesa.pk %}">
+            Remover
+          </button>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for despesa in object_list %}
-        <tr>
-          <td>{{ despesa.pago }}</td>
-          <td>{{ despesa.dtlancamento|date:'d/m/Y' }}</td>
-          <td>{{ despesa.tipodespesa.descricao }}</td>
-          <td class="text-end">R$ {{ despesa.valor|floatformat:2 }}</td>
-          <td>{{ despesa.observacao }}</td>
-          <td>
-            <a href="{% url 'cadastro:despesa-update' pk=despesa.pk %}" class="btn btn-outline-primary">Editar</a>
-            <button type="button" class="btn btn-outline-danger btn-remover" 
-                    data-bs-toggle="modal" data-bs-target="#deleteModal"
-                    data-item-id="{{ despesa.pk }}"
-                    data-item-nome="{{ despesa.pk }}"
-                    data-delete-url="{% url 'cadastro:despesa-delete' pk=despesa.pk %}">
-              Remover
-            </button>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
 
-  {% include 'components/delete_modal.html' %}
+{% include 'components/delete_modal.html' %}

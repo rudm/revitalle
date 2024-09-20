@@ -14,32 +14,7 @@
     <a href="{% url 'cadastro:tipodespesa-create' %}" class="btn btn-primary">Novo Tipo de Despesa</a>
   </div>
 
-  <table class="table">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Descrição</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for tipodespesa in object_list %}
-        <tr>
-          <td>{{ tipodespesa.descricao }}</td>
-          <td>
-            <a href="{% url 'cadastro:tipodespesa-update' pk=tipodespesa.pk %}" class="btn btn-outline-primary">Editar</a>
-            <button type="button" class="btn btn-outline-danger btn-remover" 
-                    data-bs-toggle="modal" data-bs-target="#deleteModal"
-                    data-item-id="{{ tipodespesa.pk }}"
-                    data-item-nome="{{ tipodespesa.descricao }}"
-                    data-delete-url="{% url 'cadastro:tipodespesa-delete' pk=tipodespesa.pk %}">
-              Remover
-            </button>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  {% include 'components/pagination.html' %}
-  {% include 'components/delete_modal.html' %}
+  <div id="resultadosTiposDespesa">
+    {% include 'cadastro/tipodespesa/tipodespesa_list_table.html' %}
+  </div>
 {% endblock %}

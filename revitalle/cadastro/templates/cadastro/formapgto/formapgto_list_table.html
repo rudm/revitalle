@@ -1,0 +1,42 @@
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th style="width: 75%">Descrição</th>
+      <th style="width: 10%" class="text-center">Tipo</th>
+      <th style="width: 15%" class="text-center">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for formapgto in object_list %}
+      <tr>
+        <td>{{ formapgto.descricao }}</td>
+        <td class="text-center">
+          {% if formapgto.tipo == 1 %}
+            <small class="bg-success-subtle border border-success-subtle rounded-2 px-2 py-1">Dinheiro</small>
+          {% elif formapgto.tipo == 2 %}
+            <small class="bg-danger-subtle border border-danger-subtle rounded-2 px-2 py-1">Cheque</small>
+          {% elif formapgto.tipo == 3 %}
+            <small class="bg-warning-subtle border border-warning-subtle rounded-2 px-2 py-1">Transferência</small>
+          {% elif formapgto.tipo == 4 %}
+            <small class="bg-info-subtle border border-info-subtle rounded-2 px-2 py-1">Débito</small>
+          {% elif formapgto.tipo == 5 %}
+            <small class="bg-primary-subtle border border-primary-subtle rounded-2 px-2 py-1">Crédito</small>
+          {% endif %}
+        </td>
+        <td class="text-center">
+          <a href="{% url 'cadastro:formapgto-update' pk=formapgto.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+          <button type="button" class="btn btn-outline-danger btn-remover btn-sm" 
+                  data-bs-toggle="modal" data-bs-target="#deleteModal"
+                  data-item-id="{{ formapgto.pk }}"
+                  data-item-nome="{{ formapgto.descricao }}"
+                  data-delete-url="{% url 'cadastro:formapgto-delete' pk=formapgto.pk %}">
+            Remover
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include 'components/pagination.html' %}
+{% include 'components/delete_modal.html' %}
